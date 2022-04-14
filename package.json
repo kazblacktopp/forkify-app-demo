@@ -1,0 +1,19 @@
+{
+  "name": "forkify-app-demo",
+  "version": "1.0.0",
+  "description": "Recipe application",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel --open",
+    "build": "parcel build"
+  },
+  "author": "Karen Blacktopp",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.4.1"
+  },
+  "dependencies": {
+    "core-js": "^3.21.1",
+    "regenerator-runtime": "^0.13.9"
+  }
+}
