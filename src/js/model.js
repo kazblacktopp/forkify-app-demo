@@ -3,14 +3,36 @@ import { getJSON } from './helper.js';
 import { API_URL, RESULTS_PER_PAGE } from './config.js';
 
 export const state = {
+  recipe: {},
   search: {
     query: '',
     results: [],
     page: 1,
-    numResultsPages: 1,
     resultsPerPage: RESULTS_PER_PAGE,
   },
 };
+
+export async function loadRecipe(id) {
+  try {
+    const data = await getJSON(`${API_URL}${id}`);
+
+    const { recipe } = data.data;
+
+    state.recipe = {
+      cookingTime: recipe.cooking_time,
+      id: recipe.id,
+      image: recipe.image_url,
+      ingredients: recipe.ingredients,
+      publisher: recipe.publisher,
+      servings: recipe.servings,
+      sourceUrl: recipe.source_url,
+      title: recipe.title,
+    };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
 
 export async function loadSearchResults(query) {
   try {
