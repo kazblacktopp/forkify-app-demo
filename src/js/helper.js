@@ -11,3 +11,11 @@ export async function getJSON(url) {
     throw err;
   }
 }
+
+export function setLocalStorage(objName, obj) {
+  localStorage.setItem(objName, JSON.stringify(obj));
+}
+
+export function getLocalStorage(objName) {
+  return JSON.parse(localStorage.getItem(objName));
+}
