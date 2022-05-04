@@ -1,5 +1,5 @@
 import { async } from 'regenerator-runtime';
-import { getJSON } from './helper.js';
+import { getJSON, setLocalStorage, getLocalStorage } from './helper.js';
 import { API_URL, RESULTS_PER_PAGE } from './config.js';
 
 export const state = {
@@ -10,6 +10,7 @@ export const state = {
     page: 1,
     resultsPerPage: RESULTS_PER_PAGE,
   },
+  bookmarks: loadBookmarks(),
 };
 
 export async function loadRecipe(id) {
@@ -28,6 +29,9 @@ export async function loadRecipe(id) {
       sourceUrl: recipe.source_url,
       title: recipe.title,
     };
+    state.recipe.bookmarked = state.bookmarks?.some(
+      rec => rec.id === state.recipe.id
+    );
   } catch (err) {
     console.error(err);
     throw err;
@@ -60,4 +64,26 @@ export function getSearchResultsPage(page = state.search.page) {
   const finish = page * state.search.resultsPerPage;
   const results = state.search.results.slice(start, finish);
   return results;
+}
+
+export function addBookmark() {
+  state.recipe.bookmarked = true;
+  state.bookmarks.push(state.recipe);
+  setLocalStorage('bookmarks', state.bookmarks);
+}
+
+export function removeBookmark() {
+  state.recipe.bookmarked = false;
+  const recipeIndex = state.bookmarks.findIndex(
+    rec => rec.id === state.recipe.id
+  );
+  if (recipeIndex !== -1) {
+    state.bookmarks.splice(recipeIndex, 1);
+  }
+  setLocalStorage('bookmarks', state.bookmarks);
+}
+
+function loadBookmarks() {
+  const bookmarksArray = getLocalStorage('bookmarks');
+  return bookmarksArray ? bookmarksArray : [];
 }
