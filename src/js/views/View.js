@@ -12,6 +12,23 @@ export default class View {
     this._insertMarkup(markup);
   }
 
+  update(data) {
+    this._data = data;
+    const markup = this._generateMarkup();
+    const newElements = document
+      .createRange()
+      .createContextualFragment(markup)
+      .querySelectorAll('*');
+    const curElements = this._parentEl.querySelectorAll('*');
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+
+      if (!newEl.isEqualNode(curEl)) {
+        curEl.innerHTML = newEl.innerHTML;
+      }
+    });
+  }
+
   _insertMarkup(markup) {
     this._parentEl.insertAdjacentHTML('afterbegin', markup);
   }
