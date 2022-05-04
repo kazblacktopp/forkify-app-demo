@@ -14,7 +14,17 @@ class RecipeView extends View {
     });
   }
 
+  addHandlerBookmark(handler) {
+    this._parentEl.addEventListener('click', e => {
+      e.preventDefault();
+      const btn = e.target.closest('.btn--round');
+      if (!btn) return;
+      handler();
+    });
+  }
+
   _generateMarkup() {
+    const fill = this._data.bookmarked ? '-fill' : '';
     return `
       <figure class="recipe__fig">
         <img src="${this._data.image}" alt="${
@@ -59,7 +69,7 @@ class RecipeView extends View {
         </div>
         <button class="btn--round">
           <svg>
-            <use href="${icons}#icon-bookmark"></use>
+            <use href="${icons}#icon-bookmark${fill}"></use>
           </svg>
         </button>
       </div>
