@@ -33,8 +33,15 @@ function controlPagination(goToPage) {
   paginationView.render(model.state.search);
 }
 
+function controlBookmarks() {
+  if (model.state.recipe.bookmarked) model.removeBookmark();
+  else model.addBookmark();
+  recipeView.update(model.state.recipe);
+}
+
 function init() {
   recipeView.addHandlerRender(controlRecipe);
+  recipeView.addHandlerBookmark(controlBookmarks);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerPagination(controlPagination);
 }
