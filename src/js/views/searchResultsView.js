@@ -10,7 +10,7 @@ class SearchResultsView extends View {
   _generateSearchResults(result) {
     return `
       <li class="preview--js">
-        <a href="#" class="preview__link">
+        <a href="#${result.id}" class="preview__link">
           <figure class="preview__fig">
             <img
               src="${result.image}"
