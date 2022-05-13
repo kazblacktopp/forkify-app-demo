@@ -4,6 +4,8 @@ import { Fraction } from 'fractional';
 
 class RecipeView extends View {
   _parentEl = document.querySelector('.recipe');
+  _errorMessage = 'No recipes found for your query. Please try again!';
+  _message = 'Start by searching for a recipe or an ingredient. Have fun!';
 
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(evt => {
