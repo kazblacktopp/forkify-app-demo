@@ -49,8 +49,16 @@ function controlBookmarks() {
 }
 
 function init() {
-  bookmarksView.renderMessage();
   recipeView.renderMessage();
+  if (
+    model.state.bookmarks &&
+    Array.isArray(model.state.bookmarks) &&
+    model.state.bookmarks.length !== 0
+  ) {
+    bookmarksView.render(model.state.bookmarks);
+  } else {
+    bookmarksView.renderMessage();
+  }
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerBookmark(controlBookmarks);
   searchView.addHandlerSearch(controlSearchResults);
