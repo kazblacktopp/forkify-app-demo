@@ -34,17 +34,20 @@ export default class View {
 
   update(data) {
     this._data = data;
-    const markup = this._generateMarkup();
+    const newMarkup = this._generateMarkup();
     const newElements = document
       .createRange()
-      .createContextualFragment(markup)
+      .createContextualFragment(newMarkup)
       .querySelectorAll('*');
     const curElements = this._parentEl.querySelectorAll('*');
+
     newElements.forEach((newEl, i) => {
       const curEl = curElements[i];
 
       if (!newEl.isEqualNode(curEl)) {
-        curEl.innerHTML = newEl.innerHTML;
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
       }
     });
   }
