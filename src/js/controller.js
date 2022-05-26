@@ -10,6 +10,8 @@ async function controlRecipe() {
     const id = window.location.hash.slice(1);
     if (!id) return;
     recipeView.renderSpinner();
+    bookmarksView.update(model.state.bookmarks);
+    searchResultsView.update(model.getSearchResultsPage());
     await model.loadRecipe(id);
     recipeView.render(model.state.recipe);
   } catch (err) {

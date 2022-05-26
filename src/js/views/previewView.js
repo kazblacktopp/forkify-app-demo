@@ -1,10 +1,12 @@
-import icons from 'url:../../img/icons.svg';
-
 class PreviewView {
   generatePreview(data) {
+    const curRecipeID = window.location.hash.slice(1);
+    const active = data.id === curRecipeID ? true : false;
     return `
       <li class="preview--js">
-        <a href="#${data.id}" class="preview__link">
+        <a href="#${data.id}" class="preview__link ${
+      active ? 'preview__link--active' : ''
+    }">
           <figure class="preview__fig">
             <img
               src="${data.image}"
