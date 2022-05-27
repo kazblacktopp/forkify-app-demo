@@ -49,6 +49,13 @@ export default class View {
           curEl.setAttribute(attr.name, attr.value)
         );
       }
+
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl.firstChild.nodeValue.trim() !== ''
+      ) {
+        curEl.innerHTML = newEl.innerHTML;
+      }
     });
   }
 
