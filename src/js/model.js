@@ -87,3 +87,17 @@ function loadBookmarks() {
   const bookmarksArray = getLocalStorage('bookmarks');
   return bookmarksArray ? bookmarksArray : [];
 }
+
+export function adjustServings(servings) {
+  const newIngredients = state.recipe.ingredients.map(ing => {
+    const quantPerServe = ing.quantity / state.recipe.servings;
+    const newQuantity = quantPerServe * servings;
+    return {
+      quantity: newQuantity,
+      unit: ing.unit,
+      description: ing.description,
+    };
+  });
+  state.recipe.ingredients = newIngredients;
+  state.recipe.servings = +servings;
+}
