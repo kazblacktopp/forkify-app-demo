@@ -50,6 +50,12 @@ function controlBookmarks() {
   }
 }
 
+function controlServings(servings) {
+  if (!servings || servings < 1) return;
+  model.adjustServings(servings);
+  recipeView.update(model.state.recipe);
+}
+
 function init() {
   recipeView.renderMessage();
   if (
@@ -63,6 +69,7 @@ function init() {
   }
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerBookmark(controlBookmarks);
+  recipeView.addHanderServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerPagination(controlPagination);
 }
