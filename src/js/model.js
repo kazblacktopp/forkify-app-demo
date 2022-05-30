@@ -1,4 +1,3 @@
-import { async } from 'regenerator-runtime';
 import { getJSON, setLocalStorage, getLocalStorage } from './helper.js';
 import { API_URL, RESULTS_PER_PAGE } from './config.js';
 
