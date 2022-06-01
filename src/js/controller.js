@@ -7,6 +7,7 @@ import searchView from './views/searchView.js';
 import searchResultsView from './views/searchResultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 async function controlRecipe() {
   try {
@@ -59,6 +60,10 @@ function controlServings(servings) {
   recipeView.update(model.state.recipe);
 }
 
+async function controlAddRecipe() {
+  console.log('New recipe uploaded');
+}
+
 function init() {
   recipeView.renderMessage();
   if (
@@ -75,6 +80,7 @@ function init() {
   recipeView.addHanderServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerPagination(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 }
 
 init();
