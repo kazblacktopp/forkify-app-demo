@@ -60,8 +60,12 @@ function controlServings(servings) {
   recipeView.update(model.state.recipe);
 }
 
-async function controlAddRecipe() {
-  console.log('New recipe uploaded');
+async function controlAddRecipe(newRecipe) {
+  try {
+    await model.uploadRecipe(newRecipe);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 function init() {

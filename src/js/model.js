@@ -31,6 +31,7 @@ export async function loadRecipe(id) {
     state.recipe.bookmarked = state.bookmarks?.some(
       rec => rec.id === state.recipe.id
     );
+    console.log(recipe);
   } catch (err) {
     console.error(err);
     throw err;
@@ -99,4 +100,35 @@ export function adjustServings(servings) {
   });
   state.recipe.ingredients = newIngredients;
   state.recipe.servings = +servings;
+}
+
+export async function uploadRecipe(newRecipe) {
+  try {
+    const ingredients = Object.entries(newRecipe)
+      .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+      .map(entry => {
+        const ingArray = entry[1].split(',').map(el => el.trim());
+
+        if (ingArray.length !== 3)
+          throw new Error(
+            'Wrong ingredient format. Please enter ingredient quantity, unit and description separated by a comma.'
+          );
+
+        const [quantity, unit, description] = ingArray;
+
+        return { quantity: quantity ? +quantity : null, unit, description };
+      });
+
+    const recipe = {
+      cooking_time: newRecipe.cookingTime,
+      image_url: newRecipe.image,
+      ingredients: ingredients,
+      publisher: newRecipe.publisher,
+      servings: newRecipe.servings,
+      source_url: newRecipe.sourceUrl,
+      title: newRecipe.title,
+    };
+  } catch (err) {
+    console.error(err);
+  }
 }
