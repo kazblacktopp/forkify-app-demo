@@ -63,6 +63,11 @@ function controlServings(servings) {
 async function controlAddRecipe(newRecipe) {
   try {
     await model.uploadRecipe(newRecipe);
+    addRecipeView.toggleModal();
+    recipeView.renderSpinner();
+    bookmarksView.update(model.state.bookmarks);
+    searchResultsView.update(model.getSearchResultsPage());
+    recipeView.render(model.state.recipe);
   } catch (err) {
     console.error(err);
   }
