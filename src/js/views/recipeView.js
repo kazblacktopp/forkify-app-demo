@@ -8,17 +8,11 @@ class RecipeView extends View {
   _message = 'Start by searching for a recipe or an ingredient. Have fun!';
 
   addHandlerRender(handler) {
-    ['hashchange', 'load'].forEach(evt => {
-      window.addEventListener(evt, e => {
-        e.preventDefault();
-        handler();
-      });
-    });
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
 
   addHandlerBookmark(handler) {
     this._parentEl.addEventListener('click', e => {
-      e.preventDefault();
       const btn = e.target.closest('.btn--round');
       if (!btn) return;
       handler();
@@ -27,7 +21,6 @@ class RecipeView extends View {
 
   addHanderServings(handler) {
     this._parentEl.addEventListener('click', e => {
-      e.preventDefault();
       const btn = e.target.closest('.btn--adjust-servings');
       if (!btn) return;
       const servings = btn.dataset.servings;
@@ -83,6 +76,18 @@ class RecipeView extends View {
             </button>
           </div>
         </div>
+
+        <div class="recipe__user-generated">
+        ${
+          this._data.key
+            ? `
+          <svg>
+            <use href="${icons}#icon-user"></use>
+          </svg>`
+            : ``
+        }
+        </div>
+
         <button class="btn--round">
           <svg>
             <use href="${icons}#icon-bookmark${fill}"></use>
@@ -107,7 +112,7 @@ class RecipeView extends View {
         </p>
         <a
           class="btn btn--small"
-          href=${this._data.sourceUrl}
+          href="${this._data.sourceUrl}"
           target="_blank"
         >
           <span>Directions</span>
