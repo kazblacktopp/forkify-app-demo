@@ -522,6 +522,25 @@ body {
   fill: var(--color-primary);
 }
 
+.preview__user-generated {
+  background-color: var(--color-grey-light-2);
+  filter: brightness(98%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 10rem;
+  margin-left: auto;
+  margin-right: 1.75rem;
+}
+
+.preview__user-generated svg {
+  height: 1.2rem;
+  width: 1.2rem;
+  fill: var(--color-primary);
+}
+
 /****************** RECIPE STYLES *******************/
 /****************************************************/
 
@@ -618,6 +637,10 @@ body {
 }
 
 .recipe__user-generated {
+  margin-left: auto;
+}
+
+.recipe__user-generated-icon {
   background-color: var(--color-grey-light-2);
   filter: brightness(98%);
   display: flex;
@@ -626,11 +649,10 @@ body {
   height: 4rem;
   width: 4rem;
   border-radius: 10rem;
-  margin-left: auto;
   margin-right: 1.75rem;
 }
 
-.recipe__user-generated svg {
+.recipe__user-generated-icon svg {
   height: 2.25rem;
   width: 2.25rem;
   fill: var(--color-primary);
