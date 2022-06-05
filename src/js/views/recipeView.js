@@ -81,9 +81,11 @@ class RecipeView extends View {
         ${
           this._data.key
             ? `
-          <svg>
-            <use href="${icons}#icon-user"></use>
-          </svg>`
+            <div class="recipe__user-generated-icon">
+              <svg>
+                <use href="${icons}#icon-user"></use>
+              </svg>
+            </div>`
             : ``
         }
         </div>
