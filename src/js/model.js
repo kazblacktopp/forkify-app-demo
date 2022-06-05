@@ -1,5 +1,5 @@
-import { getJSON, setLocalStorage, getLocalStorage } from './helper.js';
-import { API_URL, RESULTS_PER_PAGE } from './config.js';
+import { AJAX, setLocalStorage, getLocalStorage } from './helper.js';
+import { API_URL, RESULTS_PER_PAGE, API_KEY } from './config.js';
 
 export const state = {
   recipe: {},
@@ -12,36 +12,46 @@ export const state = {
   bookmarks: loadBookmarks(),
 };
 
+function loadBookmarks() {
+  const bookmarksArray = getLocalStorage('bookmarks');
+  return bookmarksArray ? bookmarksArray : [];
+}
+
 export async function loadRecipe(id) {
   try {
-    const data = await getJSON(`${API_URL}${id}`);
+    const data = await AJAX(`${API_URL}${id}`);
 
-    const { recipe } = data.data;
-
-    state.recipe = {
-      cookingTime: recipe.cooking_time,
-      id: recipe.id,
-      image: recipe.image_url,
-      ingredients: recipe.ingredients,
-      publisher: recipe.publisher,
-      servings: recipe.servings,
-      sourceUrl: recipe.source_url,
-      title: recipe.title,
-    };
+    state.recipe = createRecipeObject(data);
     state.recipe.bookmarked = state.bookmarks?.some(
       rec => rec.id === state.recipe.id
     );
-    console.log(recipe);
   } catch (err) {
     console.error(err);
     throw err;
   }
 }
 
+function createRecipeObject(data) {
+  const { recipe } = data.data;
+
+  const recipeObj = {
+    cookingTime: recipe.cooking_time,
+    id: recipe.id,
+    image: recipe.image_url,
+    ingredients: recipe.ingredients,
+    publisher: recipe.publisher,
+    servings: recipe.servings,
+    sourceUrl: recipe.source_url,
+    title: recipe.title,
+  };
+  if (recipe.key) recipeObj.key = recipe.key;
+  return recipeObj;
+}
+
 export async function loadSearchResults(query) {
   try {
-    const url = `${API_URL}?search=${query}`;
-    const data = await getJSON(url);
+    const url = `${API_URL}?search=${query}&key=${API_KEY}`;
+    const data = await AJAX(url);
     state.search.query = query;
 
     state.search.results = data.data.recipes.map(rec => {
@@ -83,11 +93,6 @@ export function removeBookmark() {
   setLocalStorage('bookmarks', state.bookmarks);
 }
 
-function loadBookmarks() {
-  const bookmarksArray = getLocalStorage('bookmarks');
-  return bookmarksArray ? bookmarksArray : [];
-}
-
 export function adjustServings(servings) {
   const newIngredients = state.recipe.ingredients.map(ing => {
     const quantPerServe = ing.quantity / state.recipe.servings;
@@ -120,14 +125,18 @@ export async function uploadRecipe(newRecipe) {
       });
 
     const recipe = {
-      cooking_time: newRecipe.cookingTime,
+      cooking_time: +newRecipe.cookingTime,
       image_url: newRecipe.image,
-      ingredients: ingredients,
       publisher: newRecipe.publisher,
-      servings: newRecipe.servings,
+      servings: +newRecipe.servings,
       source_url: newRecipe.sourceUrl,
       title: newRecipe.title,
+      ingredients,
     };
+
+    const data = await AJAX(`${API_URL}?key=${API_KEY}`, recipe);
+    state.recipe = createRecipeObject(data);
+    addBookmark();
   } catch (err) {
     console.error(err);
   }
