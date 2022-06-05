@@ -43,8 +43,8 @@ function createRecipeObject(data) {
     servings: recipe.servings,
     sourceUrl: recipe.source_url,
     title: recipe.title,
+    ...(recipe.key && { key: recipe.key }),
   };
-  if (recipe.key) recipeObj.key = recipe.key;
   return recipeObj;
 }
 
@@ -60,6 +60,7 @@ export async function loadSearchResults(query) {
         image: rec.image_url,
         title: rec.title,
         publisher: rec.publisher,
+        ...(rec.key && { key: rec.key }),
       };
     });
   } catch (err) {
