@@ -1,3 +1,5 @@
+import icons from 'url:../../img/icons.svg';
+
 class PreviewView {
   generatePreview(data) {
     const curRecipeID = window.location.hash.slice(1);
@@ -18,6 +20,17 @@ class PreviewView {
           <div class="preview__data">
             <h4 class="preview__title">${data.title}</h4>
             <p class="preview__publisher">${data.publisher}</p>
+              ${
+                data.key
+                  ? `
+                      <div class="preview__user-generated">
+                        <svg>
+                          <use href="${icons}#icon-user"></use>
+                        </svg>
+                      </div>
+                    `
+                  : ``
+              }
           </div>
         </a>
       </li>
